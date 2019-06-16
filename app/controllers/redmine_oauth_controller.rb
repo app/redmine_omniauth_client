@@ -37,8 +37,8 @@ class RedmineOauthController < AccountController
     if user.nil?
       # Create on the fly
       user = User.new
-      user.firstname = info['full_name']
-      user.lastname = info['full_name']
+      user.firstname = ( info['full_name'].blank?  ? 'Not found' : info['full_name'] )
+      user.lastname = ( info['full_name'].blank? ? 'Not found' : info['full_name'] )
       user.mail = info['email']
       user.login = info['login']
       user.random_password

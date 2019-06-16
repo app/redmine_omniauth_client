@@ -3,7 +3,7 @@
   <%= text_field_tag 'settings[app_name]', @settings['app_name'] %>
 </p>
 <p>
-  <label>Site URL:</label>
+  <label>OAuth Provider site:</label>
   <%= text_field_tag 'settings[site_url]', @settings['site_url'] %>
 </p>
 <p>
@@ -15,7 +15,7 @@
   <%= text_field_tag 'settings[token_url]', @settings['token_url'] %>
 </p>
 <p>
-  <label>Webservice URL:</label>
+  <label>User info API path (/api/v1/user):</label>
   <%= text_field_tag 'settings[ws_url]', @settings['ws_url'] %>
 </p>
 <p>
@@ -26,6 +26,7 @@
   <label>Client Secret:</label>
   <%= text_field_tag 'settings[client_secret]', @settings['client_secret'] %>
 </p>
+<!-- 
 <p>
   <label>Username field:</label>
   <%= text_field_tag 'settings[field_username]', @settings['field_username'] %>
@@ -42,6 +43,7 @@
   <label>Last name field:</label>
   <%= text_field_tag 'settings[field_lastname]', @settings['field_lastname'] %>
 </p>
+-->
 <p>
   <label>Force account creation :</label>
   <%= check_box_tag "settings[force_account_creation]", true, @settings['force_account_creation'] %>
