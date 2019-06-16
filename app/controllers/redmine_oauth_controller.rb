@@ -5,7 +5,8 @@ class RedmineOauthController < AccountController
   def oauth
     if Setting.plugin_redmine_omniauth_client['oauth_authentification']
       session[:back_url] = params[:back_url]
-      redirect_to oauth_client.auth_code.authorize_url(:redirect_uri => oauth_callback_url)
+      # redirect_to oauth_client.auth_code.authorize_url(:redirect_uri => oauth_callback_url)
+      redirect_to oauth_client.auth_code.authorize_url(:redirect_uri => 'https://redmine.onedev.space/oauth_client_callback')
     else
       password_authentication
     end
@@ -16,10 +17,11 @@ class RedmineOauthController < AccountController
       flash[:error] = l(:notice_access_denied, :app => settings['app_name'])
       redirect_to signin_path
     else
-      token = oauth_client.auth_code.get_token(params[:code], :redirect_uri => oauth_callback_url)
+      # token = oauth_client.auth_code.get_token(params[:code], :redirect_uri => oauth_callback_url)
+      token = oauth_client.auth_code.get_token(params[:code], :redirect_uri => 'https://redmine.onedev.space/oauth_client_callback')
       result = token.get(settings['site_url'] + settings['ws_url'])
       info = JSON.parse(result.body)
-      if info && info[settings['field_username']]
+      if info && info['id']
         try_to_login info
       else
         flash[:error] = l(:notice_unable_to_obtain_app_credentials, :app => settings['app_name'])
@@ -31,14 +33,14 @@ class RedmineOauthController < AccountController
   def try_to_login info
    params[:back_url] = session[:back_url]
    session.delete(:back_url)
-   user = User.find_by_login(info[settings['field_username']])
+   user = User.find_by_login(info['login'])
     if user.nil?
       # Create on the fly
       user = User.new
-      user.firstname = info[settings['field_firstname']]
-      user.lastname = info[settings['field_lastname']]
-      user.mail = info[settings['field_email']]
-      user.login = info[settings['field_username']]
+      user.firstname = info['full_name']
+      user.lastname = info['full_name']
+      user.mail = info['email']
+      user.login = info['login']
       user.random_password
       user.register
 
