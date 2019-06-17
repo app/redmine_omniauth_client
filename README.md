@@ -1,6 +1,6 @@
 ## Redmine omniauth ROR
 
-This plugin is used to authenticate Redmine users using an OAuth2 provider.
+This plugin is used to authenticate Redmine users using an OAuth2 provider of Gitea.
 
 ### Installation:
 
